@@ -44,10 +44,16 @@ type Proposal @entity {
   votesTotal: BigInt!
   "The time when the proposal was created"
   createdAt: BigInt!
-  "The events associated with this proposal"
+  "The block number at which the proposal was created"
+  createdAtBlock: BigInt!
+  "The minimum number of votes required for the proposal to be considered valid and eligible for approval"
+  quorum: BigInt!
+  "block number used to determine each voter's voting power for a specific proposal"
   events: [ProposalEvent!]! @derivedFrom(field: "proposal")
   "The state of the proposal"
   state: ProposalState!
+  "The raw state of the proposal"
+  rawState: Int!
   "The votes associated with this proposal"
   votes: [VoteCast!]! @derivedFrom(field: "proposal")
 }
@@ -210,4 +216,9 @@ type OwnershipTransferred @entity(immutable: true) {
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
+}
+
+type Counter @entity {
+  id: ID! # e.g., "proposals", "votes"
+  count: Int!
 }

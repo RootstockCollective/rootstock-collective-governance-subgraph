@@ -1,5 +1,6 @@
 import {
   EIP712DomainChanged as EIP712DomainChangedEvent,
+  GovernorRootstockCollective as GovernorContract,
   Initialized as InitializedEvent,
   OwnershipTransferred as OwnershipTransferredEvent,
   ProposalCanceled as ProposalCanceledEvent,
@@ -13,7 +14,7 @@ import {
   VoteCast as VoteCastEvent,
   VoteCastWithParams as VoteCastWithParamsEvent,
   VotingDelaySet as VotingDelaySetEvent,
-  VotingPeriodSet as VotingPeriodSetEvent,  
+  VotingPeriodSet as VotingPeriodSetEvent,
 } from "../generated/GovernorRootstockCollective/GovernorRootstockCollective"
 import {
   Account,
@@ -34,8 +35,9 @@ import {
   VotingDelaySet,
   VotingPeriodSet,
 } from "../generated/schema"
-import { BigInt, Bytes, ethereum } from "@graphprotocol/graph-ts"
-import { createEventID, getProposalStateName, ProposalState } from "./utils/helpers"
+import {BigInt, Bytes} from "@graphprotocol/graph-ts"
+import {createEventID, getProposalStateName, incrementCounter, ProposalState} from "./utils/helpers"
+import {Transfer} from "../generated/GovernorRootstockCollective/GovernorToken";
 
 export function handleEIP712DomainChanged(
   event: EIP712DomainChangedEvent,
@@ -80,8 +82,10 @@ export function handleOwnershipTransferred(
   entity.save()
 }
 
-export function handleProposalCanceled(event: ProposalCanceledEvent): void {  
+export function handleProposalCanceled(event: ProposalCanceledEvent): void {
   let proposal = Proposal.load(event.params.proposalId.toHexString())!;
+  proposal.state = getProposalStateName(ProposalState.Canceled);
+  proposal.rawState = ProposalState.Canceled;
   let entity = new ProposalCanceled(createEventID(event))
   entity.proposal = proposal.id
 
@@ -107,14 +111,19 @@ export function handleProposalCreated(event: ProposalCreatedEvent): void {
   entity.voteStart = event.params.voteStart
   entity.voteEnd = event.params.voteEnd
   entity.description = event.params.description
-  entity.createdAt = event.block.timestamp  
+  entity.createdAt = event.block.timestamp
+  entity.createdAtBlock = event.block.number
 
   entity.votesFor = BigInt.fromI32(0)
   entity.votesAgainst = BigInt.fromI32(0)
   entity.votesAbstains = BigInt.fromI32(0)
   entity.votesTotal = BigInt.fromI32(0)
   entity.state = getProposalStateName(ProposalState.Pending);
+  entity.rawState = ProposalState.Pending;
 
+
+  let contract = GovernorContract.bind(event.address)
+  entity.quorum = contract.quorum(event.block.number.minus(BigInt.fromI32(1)))
   entity.save()
 
   let proposalEvent = new ProposalCreated(createEventID(event));
@@ -124,11 +133,14 @@ export function handleProposalCreated(event: ProposalCreatedEvent): void {
   proposalEvent.transactionHash = event.transaction.hash
   
   proposalEvent.save();
+  incrementCounter("proposals");
+
 }
 
 export function handleProposalExecuted(event: ProposalExecutedEvent): void {
   let proposal = Proposal.load(event.params.proposalId.toHexString())!;
   proposal.state = getProposalStateName(ProposalState.Executed);
+  proposal.rawState = ProposalState.Executed;
   proposal.save();
 
   let entity = new ProposalExecuted(createEventID(event))
@@ -138,12 +150,13 @@ export function handleProposalExecuted(event: ProposalExecutedEvent): void {
   entity.blockTimestamp = event.block.timestamp
   entity.transactionHash = event.transaction.hash
 
-  entity.save()  
+  entity.save()
 }
 
 export function handleProposalQueued(event: ProposalQueuedEvent): void {
   let proposal = Proposal.load(event.params.proposalId.toHexString())!;
   proposal.state = getProposalStateName(ProposalState.Queued);
+  proposal.rawState = ProposalState.Queued;
   proposal.save();
 
   let entity = new ProposalQueued(createEventID(event))
@@ -249,6 +262,7 @@ export function handleVoteCast(event: VoteCastEvent): void {
   }
   proposal.votesTotal = proposal.votesTotal.plus(BigInt.fromI32(1));
   proposal.state = getProposalStateName(ProposalState.Active);
+  proposal.rawState = ProposalState.Active;
   proposal.save();  
 }
 
@@ -296,4 +310,8 @@ export function handleVotingPeriodSet(event: VotingPeriodSetEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
+}
+
+export function handleTransferEvent(event: Transfer): void {
+
 }

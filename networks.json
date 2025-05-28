@@ -3,5 +3,11 @@
     "GovernorRootstockCollective": {
       "address": "0x086ce91ebaf4002544121295491a1dc80f3ef7a5"
     }
+  },
+  "rootstock-testnet": {
+    "GovernorRootstockCollective": {
+      "address": "0xb1a39b8f57a55d1429324eeb1564122806eb297f",
+      "startBlock": 5503039
+    }
   }
 }

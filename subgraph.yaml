@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: GovernorRootstockCollective
-    network: rootstock
+    network: rootstock-testnet
     source:
-      address: "0x71aC6FF904a17f50f2c07B693376CCC1c92627F0"
+      address: "0xb1a39b8f57a55d1429324eeb1564122806eb297f"
       abi: GovernorRootstockCollective
-      startBlock: 6704068
+      startBlock: 5503039
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -32,6 +32,7 @@ dataSources:
         - VotingDelaySet
         - VotingPeriodSet
         - Proposal
+        - Counter
       abis:
         - name: GovernorRootstockCollective
           file: ./abis/GovernorRootstockCollective.json
@@ -66,4 +67,6 @@ dataSources:
           handler: handleVotingDelaySet
         - event: VotingPeriodSet(uint256,uint256)
           handler: handleVotingPeriodSet
+#      blockHandlers:
+#        - handler: handleBlock
       file: ./src/governor-rootstock-collective.ts

@@ -1,4 +1,5 @@
 import { ethereum } from "@graphprotocol/graph-ts";
+import { Counter } from "../../generated/schema";
 
 export enum ProposalState {
     Pending,
@@ -38,4 +39,15 @@ export function createEventID(event: ethereum.Event): string {
       .toString()
       .concat("-")
       .concat(event.logIndex.toString());
-  }
+}
+
+// Helper to increment a counter
+export function incrementCounter(counterId: string): void {
+    let counter = Counter.load(counterId);
+    if (!counter) {
+        counter = new Counter(counterId);
+        counter.count = 0;
+    }
+    counter.count += 1;
+    counter.save();
+}
