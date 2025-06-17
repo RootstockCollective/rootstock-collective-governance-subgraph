@@ -8,11 +8,26 @@
     "create-local": "graph create --node http://localhost:8020/ rootstock-collective-governance-subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ rootstock-collective-governance-subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 rootstock-collective-governance-subgraph",
+    "prepare:dev": "mustache dev.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:testnet": "mustache testnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:dao-qa": "mustache dao.qa.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:release-candidate-mainnet": "mustache release-candidate-mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:release-candidate-testnet": "mustache release-candidate-testnet.json subgraph.template.yaml > subgraph.yaml",
+    "prepare:mainnet": "mustache mainnet.json subgraph.template.yaml > subgraph.yaml",
+    "deploy:dev": "npm run prepare:dev && graph deploy --node https://api.studio.thegraph.com/deploy/ rootstockcollective-governance-dev",
+    "deploy:testnet": "npm run prepare:testnet && graph deploy --node https://api.studio.thegraph.com/deploy/ rootstockcollective-governance-testnet",
+    "deploy:dao-qa": "npm run prepare:dao-qa && graph deploy --node https://api.studio.thegraph.com/deploy/ rootstockcollective-governance-dao-qa",
+    "deploy:release-candidate-testnet": "npm run prepare:release-candidate-testnet && graph deploy --node https://api.studio.thegraph.com/deploy/ rootstockcollective-governance-release-candidate-testnet",
+    "deploy:release-candidate-mainnet": "npm run prepare:release-candidate-mainnet && graph deploy --node https://api.studio.thegraph.com/deploy/ rootstockcollective-governance-release-candidate-mainnet",
+    "deploy:mainnet": "npm run prepare:mainnet && graph deploy --node https://api.studio.thegraph.com/deploy/ rootstockcollective-governance",
     "test": "graph test"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.93.3",
     "@graphprotocol/graph-ts": "0.36.0"
   },
-  "devDependencies": { "matchstick-as": "0.6.0" }
+  "devDependencies": {
+    "matchstick-as": "0.6.0",
+    "mustache": "^4.2.0"
+  }
 }

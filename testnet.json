@@ -1,0 +1,7 @@
+{
+  "network": "rootstock-testnet",
+  "governor": {
+    "address": "0xb1a39b8f57a55d1429324eeb1564122806eb297f",
+    "startBlock": "5503039"
+  }
+}

@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: GovernorRootstockCollective
-    network: rootstock-testnet
+    network: {{network}}
     source:
-      address: "0xb1a39b8f57a55d1429324eeb1564122806eb297f"
+      address: "{{governor.address}}"
       abi: GovernorRootstockCollective
-      startBlock: 5503039
+      startBlock: {{governor.startBlock}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
