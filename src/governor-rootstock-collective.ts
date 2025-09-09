@@ -37,7 +37,6 @@ import {
 } from "../generated/schema"
 import {BigInt, Bytes} from "@graphprotocol/graph-ts"
 import {createEventID, getProposalStateName, incrementCounter, ProposalState} from "./utils/helpers"
-import {Transfer} from "../generated/GovernorRootstockCollective/GovernorToken";
 
 export function handleEIP712DomainChanged(
   event: EIP712DomainChangedEvent,
@@ -310,8 +309,4 @@ export function handleVotingPeriodSet(event: VotingPeriodSetEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
-}
-
-export function handleTransferEvent(event: Transfer): void {
-
 }

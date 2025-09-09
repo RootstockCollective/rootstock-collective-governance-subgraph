@@ -70,3 +70,25 @@ dataSources:
 #      blockHandlers:
 #        - handler: handleBlock
       file: ./src/governor-rootstock-collective.ts
+  - kind: ethereum
+    name: StRIFToken
+    network: {{network}}
+    source:
+      address: '{{strif.address}}'
+      abi: StRIFToken
+      startBlock: {{strif.startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Account
+      abis:
+        - name: StRIFToken
+          file: ./abis/StRIFTokenV02.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/strif-token.ts

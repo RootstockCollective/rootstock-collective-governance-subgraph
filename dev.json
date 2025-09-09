@@ -3,5 +3,9 @@
   "governor": {
     "address": "0xb1a39b8f57a55d1429324eeb1564122806eb297f",
     "startBlock": "5503039"
+  },
+  "strif": {
+    "address": "0xC4b091d97AD25ceA5922f09fe80711B7ACBbb16f",
+    "startBlock": "5503034"
   }
 }

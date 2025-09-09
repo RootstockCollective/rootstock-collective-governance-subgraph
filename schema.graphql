@@ -12,6 +12,12 @@ enum ProposalState {
 type Account @entity {
   "The unique identifier for the account"
   id: ID!
+  # Who this account has delegated to (null if none)
+  delegate: Account
+  # Accounts delegating to this one
+  delegators: [Account!]! @derivedFrom(field: "delegate")
+  # Current voting power delegated to this account
+  delegatedVotes: BigInt!
   "The votes cast by this account"
   VoteCasts: [VoteCast!]! @derivedFrom(field: "voter")
   "The proposals created by this account"
