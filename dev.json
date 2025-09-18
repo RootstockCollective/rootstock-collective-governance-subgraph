@@ -5,7 +5,11 @@
     "startBlock": "5503039"
   },
   "strif": {
-    "address": "0xC4b091d97AD25ceA5922f09fe80711B7ACBbb16f",
+    "address": "0xc4b091d97ad25cea5922f09fe80711b7acbbb16f",
     "startBlock": "5503034"
+  },
+  "ogcontributors": {
+    "address": "0xdc03b8fb7e47e4651f5008bd718a804726424a75",
+    "startBlock": "5698511"
   }
 }

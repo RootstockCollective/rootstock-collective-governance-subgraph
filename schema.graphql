@@ -12,16 +12,29 @@ enum ProposalState {
 type Account @entity {
   "The unique identifier for the account"
   id: ID!
-  # Who this account has delegated to (null if none)
+  "Who this account has delegated to (null if none)"
   delegate: Account
-  # Accounts delegating to this one
+  "Accounts delegating to this one"
   delegators: [Account!]! @derivedFrom(field: "delegate")
-  # Current voting power delegated to this account
+  "Current voting power delegated to this account"
   delegatedVotes: BigInt!
   "The votes cast by this account"
   VoteCasts: [VoteCast!]! @derivedFrom(field: "voter")
   "The proposals created by this account"
   Proposals: [Proposal!]! @derivedFrom(field: "proposer")
+}
+
+type Contributor @entity {
+    "The unique identifier for the contributor"
+    id: ID!
+    "Account linked to this contributor"
+    account: Account!
+    "The identifier of the NFT that grants contributor status"
+    nftId: BigInt
+    "The block timestamp when delegation started"
+    createdAt: BigInt!
+    "The block number at which delegation was recorded"
+    createdAtBlock: BigInt!
 }
 
 type Proposal @entity {
