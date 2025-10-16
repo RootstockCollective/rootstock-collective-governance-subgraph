@@ -1,5 +1,5 @@
-import { ethereum } from "@graphprotocol/graph-ts";
-import { Counter } from "../../generated/schema";
+import {Address, BigInt, ethereum} from "@graphprotocol/graph-ts";
+import {Account, Counter} from "../../generated/schema";
 
 export enum ProposalState {
     Pending,
@@ -50,4 +50,18 @@ export function incrementCounter(counterId: string): void {
     }
     counter.count += 1;
     counter.save();
+}
+
+export function getOrCreateAccount(address: Address): Account {
+  let id = address.toHexString()
+  let account = Account.load(id)
+
+  if (!account) {
+    account = new Account(id)
+    account.delegate = null
+    account.delegatedVotes = BigInt.fromI32(0)
+    account.save()
+  }
+
+  return account as Account
 }

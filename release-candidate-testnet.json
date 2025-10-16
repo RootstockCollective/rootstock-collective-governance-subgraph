@@ -3,5 +3,13 @@
   "governor": {
     "address": "0xb77ab0075e9805efa82040bed73368d988a2d9c2",
     "startBlock": "5974651"
+  },
+  "strif": {
+    "address": "0xdfda5cc18f1a1de6498d9988b1a6a11e69d1bbfd",
+    "startBlock": "5974640"
+  },
+  "ogcontributors": {
+    "address": "0xdc03b8fb7e47e4651f5008bd718a804726424a75",
+    "startBlock": "5698511"
   }
 }

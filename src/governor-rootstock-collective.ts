@@ -36,8 +36,7 @@ import {
   VotingPeriodSet,
 } from "../generated/schema"
 import {BigInt, Bytes} from "@graphprotocol/graph-ts"
-import {createEventID, getProposalStateName, incrementCounter, ProposalState} from "./utils/helpers"
-import {Transfer} from "../generated/GovernorRootstockCollective/GovernorToken";
+import {createEventID, getOrCreateAccount, getProposalStateName, incrementCounter, ProposalState} from "./utils/helpers"
 
 export function handleEIP712DomainChanged(
   event: EIP712DomainChangedEvent,
@@ -99,7 +98,7 @@ export function handleProposalCanceled(event: ProposalCanceledEvent): void {
 export function handleProposalCreated(event: ProposalCreatedEvent): void {
   let entity = new Proposal(event.params.proposalId.toHexString())
 
-  let account = new Account(event.params.proposer.toHexString());
+  let account = getOrCreateAccount(event.params.proposer);
   account.save();
 
   entity.proposalId = event.params.proposalId
@@ -234,7 +233,7 @@ export function handleVoteCast(event: VoteCastEvent): void {
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
   
-  let account = new Account(event.params.voter.toHexString());
+  let account = getOrCreateAccount(event.params.voter);
   account.save();
 
   let proposal = Proposal.load(event.params.proposalId.toHexString())!;
@@ -310,8 +309,4 @@ export function handleVotingPeriodSet(event: VotingPeriodSetEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
-}
-
-export function handleTransferEvent(event: Transfer): void {
-
 }

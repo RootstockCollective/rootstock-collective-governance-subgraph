@@ -70,3 +70,45 @@ dataSources:
 #      blockHandlers:
 #        - handler: handleBlock
       file: ./src/governor-rootstock-collective.ts
+  - kind: ethereum
+    name: StRIFToken
+    network: {{network}}
+    source:
+      address: '{{strif.address}}'
+      abi: StRIFToken
+      startBlock: {{strif.startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Account
+      abis:
+        - name: StRIFToken
+          file: ./abis/StRIFTokenV02.json
+      eventHandlers:
+        - event: DelegateChanged(indexed address,indexed address,indexed address)
+          handler: handleDelegateChanged
+        - event: DelegateVotesChanged(indexed address,uint256,uint256)
+          handler: handleDelegateVotesChanged
+      file: ./src/strif-token.ts
+  - kind: ethereum
+    name: OGContributorsRootstockCollective
+    network: {{network}}
+    source:
+      address: '{{ogcontributors.address}}'
+      abi: OGContributorsRootstockCollective
+      startBlock: {{ogcontributors.startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Contributor
+      abis:
+        - name: OGContributorsRootstockCollective
+          file: ./abis/OGContributorsRootstockCollective.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleNFTTransfer
+      file: ./src/og-contributor.ts
