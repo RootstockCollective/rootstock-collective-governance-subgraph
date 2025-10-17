@@ -2,7 +2,7 @@ specVersion: 1.0.0
 indexerHints:
   prune: auto
 schema:
-  file: ./schema.graphql
+  file: ./schema/schema.graphql
 dataSources:
   - kind: ethereum
     name: GovernorRootstockCollective
@@ -37,12 +37,20 @@ dataSources:
         - name: GovernorRootstockCollective
           file: ./abis/GovernorRootstockCollective.json
       eventHandlers:
+        # Admin events
         - event: EIP712DomainChanged()
           handler: handleEIP712DomainChanged
         - event: Initialized(uint64)
           handler: handleInitialized
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
+        - event: TimelockChange(address,address)
+          handler: handleTimelockChange
+        - event: Upgraded(indexed address)
+          handler: handleUpgraded
+        - event: QuorumNumeratorUpdated(uint256,uint256)
+          handler: handleQuorumNumeratorUpdated
+        # Proposals events
         - event: ProposalCanceled(uint256)
           handler: handleProposalCanceled
         - event: ProposalCreated(uint256,address,address[],uint256[],string[],bytes[],uint256,uint256,string)
@@ -53,12 +61,7 @@ dataSources:
           handler: handleProposalQueued
         - event: ProposalThresholdSet(uint256,uint256)
           handler: handleProposalThresholdSet
-        - event: QuorumNumeratorUpdated(uint256,uint256)
-          handler: handleQuorumNumeratorUpdated
-        - event: TimelockChange(address,address)
-          handler: handleTimelockChange
-        - event: Upgraded(indexed address)
-          handler: handleUpgraded
+        # Votes events
         - event: VoteCast(indexed address,uint256,uint8,uint256,string)
           handler: handleVoteCast
         - event: VoteCastWithParams(indexed address,uint256,uint8,uint256,string,bytes)
@@ -69,7 +72,7 @@ dataSources:
           handler: handleVotingPeriodSet
 #      blockHandlers:
 #        - handler: handleBlock
-      file: ./src/governor-rootstock-collective.ts
+      file: ./src/main.ts
   - kind: ethereum
     name: StRIFToken
     network: {{network}}
@@ -87,11 +90,12 @@ dataSources:
         - name: StRIFToken
           file: ./abis/StRIFTokenV02.json
       eventHandlers:
+        # Delegate events
         - event: DelegateChanged(indexed address,indexed address,indexed address)
           handler: handleDelegateChanged
         - event: DelegateVotesChanged(indexed address,uint256,uint256)
           handler: handleDelegateVotesChanged
-      file: ./src/strif-token.ts
+      file: ./src/main.ts
   - kind: ethereum
     name: OGContributorsRootstockCollective
     network: {{network}}
@@ -109,6 +113,7 @@ dataSources:
         - name: OGContributorsRootstockCollective
           file: ./abis/OGContributorsRootstockCollective.json
       eventHandlers:
+        # Contributor events
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleNFTTransfer
-      file: ./src/og-contributor.ts
+      file: ./src/main.ts

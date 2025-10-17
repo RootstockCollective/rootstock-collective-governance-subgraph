@@ -1,0 +1,47 @@
+type VoteCast @entity(immutable: true) {
+    id: Bytes!
+    "The account that cast the vote"
+    voter: Account!
+    "The proposal that was voted on"
+    proposal: Proposal!
+    "The support for the proposal (0 against, 1 for, 2 abstain)"
+    support: Int! # uint8
+    "The weight of the vote"
+    weight: BigInt! # uint256
+    "The reason for the vote"
+    reason: String! # string
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type VoteCastWithParams @entity(immutable: true) {
+    id: Bytes!
+    voter: Bytes! # address
+    proposalId: BigInt! # uint256
+    support: Int! # uint8
+    weight: BigInt! # uint256
+    reason: String! # string
+    params: Bytes! # bytes
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type VotingDelaySet @entity(immutable: true) {
+    id: Bytes!
+    oldVotingDelay: BigInt! # uint256
+    newVotingDelay: BigInt! # uint256
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type VotingPeriodSet @entity(immutable: true) {
+    id: Bytes!
+    oldVotingPeriod: BigInt! # uint256
+    newVotingPeriod: BigInt! # uint256
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}

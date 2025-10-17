@@ -1,0 +1,125 @@
+enum ProposalState {
+    Pending,
+    Active,
+    Canceled,
+    Defeated,
+    Succeeded,
+    Queued,
+    Expired,
+    Executed
+}
+
+type Account @entity {
+    "The unique identifier for the account"
+    id: ID!
+    "Who this account has delegated to (null if none)"
+    delegate: Account
+    "Accounts delegating to this one"
+    delegators: [Account!]! @derivedFrom(field: "delegate")
+    "Current voting power delegated to this account"
+    delegatedVotes: BigInt!
+    "The votes cast by this account"
+    VoteCasts: [VoteCast!]! @derivedFrom(field: "voter")
+    "The proposals created by this account"
+    Proposals: [Proposal!]! @derivedFrom(field: "proposer")
+}
+
+type Proposal @entity {
+    id: ID!
+    "The unique identifier for the proposal"
+    proposalId: BigInt! # uint256
+    "The account that created the proposal"
+    proposer: Account!
+    targets: [Bytes!]! # address[]
+    values: [BigInt!]! # uint256[]
+    signatures: [String!]! # string[]
+    calldatas: [Bytes!]! # bytes[]
+    "The timestamp at which voting begins"
+    voteStart: BigInt! # uint256
+    "The timestamp at which voting ends"
+    voteEnd: BigInt! # uint256
+    "The description of the proposal"
+    description: String!
+    "The votes cast on this proposal"
+    votesFor: BigInt!
+    "The votes cast against this proposal"
+    votesAgainst: BigInt!
+    "The votes cast in abstention on this proposal"
+    votesAbstains: BigInt!
+    "Total votes without weight"
+    votesTotal: BigInt!
+    "The time when the proposal was created"
+    createdAt: BigInt!
+    "The block number at which the proposal was created"
+    createdAtBlock: BigInt!
+    "The minimum number of votes required for the proposal to be considered valid and eligible for approval"
+    quorum: BigInt!
+    "block number used to determine each voter's voting power for a specific proposal"
+    events: [ProposalEvent!]! @derivedFrom(field: "proposal")
+    "The state of the proposal"
+    state: ProposalState!
+    "The raw state of the proposal"
+    rawState: Int!
+    "The votes associated with this proposal"
+    votes: [VoteCast!]! @derivedFrom(field: "proposal")
+}
+
+interface ProposalEvent {
+    "Concatenation of block number and log ID"
+    id: ID!
+    "Used to derive relationships to Proposals"
+    proposal: Proposal!
+    "The block number at which the event occurred on"
+    blockNumber: BigInt!
+    "The timestamp at which the event occurred"
+    blockTimestamp: BigInt!
+    "The transaction hash of the event"
+    transactionHash: Bytes!
+}
+
+type ProposalCreated implements ProposalEvent @entity {
+    id: ID!
+    proposal: Proposal!
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type ProposalCanceled implements ProposalEvent @entity {
+    id: ID!
+    proposal: Proposal!
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type ProposalExecuted implements ProposalEvent @entity {
+    id: ID!
+    proposal: Proposal!
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type ProposalQueued implements ProposalEvent @entity {
+    id: ID!
+    proposal: Proposal!
+    etaSeconds: BigInt!
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type ProposalThresholdSet @entity(immutable: true) {
+    id: Bytes!
+    oldProposalThreshold: BigInt! # uint256
+    newProposalThreshold: BigInt! # uint256
+    blockNumber: BigInt!
+    blockTimestamp: BigInt!
+    transactionHash: Bytes!
+}
+
+type Counter @entity {
+    id: ID! # e.g., "proposals", "votes"
+    count: Int!
+}

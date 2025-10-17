@@ -1,7 +1,7 @@
-import {Transfer} from "../generated/OGContributorsRootstockCollective/OGContributorsRootstockCollective";
+import {Transfer} from "../../../generated/OGContributorsRootstockCollective/OGContributorsRootstockCollective";
 import {Address} from "@graphprotocol/graph-ts";
-import {getOrCreateAccount} from "./utils/helpers";
-import {Contributor} from "../generated/schema";
+import {getOrCreateAccount} from "../../utils/helpers";
+import {Contributor} from "../../../generated/schema";
 
 const ZERO_ADDRESS = Address.zero()
 

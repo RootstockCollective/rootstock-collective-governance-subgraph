@@ -1,0 +1,1 @@
+export {handleEIP712DomainChanged, handleInitialized, handleOwnershipTransferred, handleQuorumNumeratorUpdated, handleTimelockChange, handleUpgraded} from './handleAdmin'
