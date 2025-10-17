@@ -1,0 +1,1 @@
+export {handleDelegateChanged, handleDelegateVotesChanged} from './handleDelegates'

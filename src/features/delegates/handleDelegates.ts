@@ -1,5 +1,5 @@
-import {getOrCreateAccount} from "./utils/helpers";
-import {DelegateChanged, DelegateVotesChanged} from "../generated/StRIFToken/StRIFToken";
+import {getOrCreateAccount} from "./../../utils/helpers";
+import {DelegateChanged, DelegateVotesChanged} from "../../../generated/StRIFToken/StRIFToken";
 import {Address} from "@graphprotocol/graph-ts";
 
 const ZERO_ADDRESS = Address.zero().toString()
