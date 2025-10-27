@@ -1,0 +1,1 @@
+export {handleNFTTransfer} from './handleContributors'

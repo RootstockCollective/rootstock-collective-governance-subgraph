@@ -1,5 +1,5 @@
-import {Address, BigInt, ethereum} from "@graphprotocol/graph-ts";
-import {Account, Counter} from "../../generated/schema";
+import {Address, BigInt} from "@graphprotocol/graph-ts";
+import {Account} from "../../generated/schema";
 
 export enum ProposalState {
     Pending,
@@ -32,24 +32,6 @@ export function getProposalStateName(proposalState: ProposalState): string {
     } else {
         return "Unknown";
     }
-}
-
-export function createEventID(event: ethereum.Event): string {
-    return event.block.number
-      .toString()
-      .concat("-")
-      .concat(event.logIndex.toString());
-}
-
-// Helper to increment a counter
-export function incrementCounter(counterId: string): void {
-    let counter = Counter.load(counterId);
-    if (!counter) {
-        counter = new Counter(counterId);
-        counter.count = 0;
-    }
-    counter.count += 1;
-    counter.save();
 }
 
 export function getOrCreateAccount(address: Address): Account {
