@@ -1,12 +1,12 @@
-type Contributor @entity {
-    "The unique identifier for the contributor"
-    id: ID!
-    "Account linked to this contributor"
-    account: Account!
-    "The identifier of the NFT that grants contributor status"
-    nftId: BigInt
-    "The block timestamp when delegation started"
-    createdAt: BigInt!
-    "The block number at which delegation was recorded"
-    createdAtBlock: BigInt!
+type Contributor @entity(immutable: false) {
+	"The unique identifier for the contributor"
+	id: ID!
+	"Account linked to this contributor"
+	account: Account!
+	"The identifier of the NFT that grants contributor status"
+	nftId: BigInt
+	"The block timestamp when delegation started"
+	createdAt: BigInt!
+	"The block number at which delegation was recorded"
+	createdAtBlock: BigInt!
 }
