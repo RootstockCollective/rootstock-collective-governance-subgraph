@@ -86,6 +86,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Account
+        - StakingHistory
       abis:
         - name: StRIFToken
           file: ./abis/StRIFTokenV02.json
@@ -95,6 +96,9 @@ dataSources:
           handler: handleDelegateChanged
         - event: DelegateVotesChanged(indexed address,uint256,uint256)
           handler: handleDelegateVotesChanged
+        # Staking events (Transfer for mint/burn tracking)
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
       file: ./src/main.ts
   - kind: ethereum
     name: OGContributorsRootstockCollective

@@ -1,0 +1,23 @@
+enum ActionType {
+	STAKE
+	UNSTAKE
+}
+
+type StakingHistory @entity(immutable: true) {
+	"Unique ID: transaction hash + log index"
+	id: ID!
+	"User account who staked/unstaked"
+	user: Account!
+	"Type of action: STAKE or UNSTAKE"
+	action: ActionType!
+	"Amount of tokens staked/unstaked"
+	amount: BigInt!
+	"User's balance after this action"
+	balance: BigInt!
+	"Timestamp of the transaction"
+	timestamp: BigInt!
+	"Block number"
+	blockNumber: BigInt!
+	"Transaction hash"
+	transactionHash: Bytes!
+}
