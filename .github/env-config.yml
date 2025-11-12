@@ -1,0 +1,36 @@
+dev:
+  name: RootstockCollective Dev
+  subgraphId: rootstockcollective-governance-dev
+  networkName: rootstock-testnet
+  graphUrl: https://api.studio.thegraph.com/deploy/
+
+testnet:
+  name: RootstockCollective Testnet
+  subgraphId: rootstockcollective-governance-testnet
+  networkName: rootstock-testnet
+  graphUrl: https://api.studio.thegraph.com/deploy/
+
+dao-qa:
+  name: RootstockCollective DAO QA
+  subgraphId: rootstockcollective-governance-dao-qa
+  networkName: rootstock-testnet
+  graphUrl: https://api.studio.thegraph.com/deploy/
+
+release-candidate-testnet:
+  name: RootstockCollective Release Candidate Testnet
+  subgraphId: rootstockcollective-governance-release-candidate-testnet
+  networkName: rootstock-testnet
+  graphUrl: https://api.studio.thegraph.com/deploy/
+
+release-candidate-mainnet:
+  name: RootstockCollective Release Candidate Mainnet
+  subgraphId: rootstockcollective-governance-release-candidate-mainnet
+  networkName: rootstock
+  graphUrl: https://api.studio.thegraph.com/deploy/
+
+mainnet:
+  name: RootstockCollective Mainnet
+  subgraphId: rootstockcollective-governance
+  networkName: rootstock
+  graphUrl: https://api.studio.thegraph.com/deploy/
+
