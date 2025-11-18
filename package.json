@@ -1,5 +1,7 @@
 {
   "name": "rootstock-collective-governance-subgraph",
+  "version": "1.0.0",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "codegen": "node scripts/merge-schema.js && graph codegen",

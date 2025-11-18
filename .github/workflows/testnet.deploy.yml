@@ -1,0 +1,22 @@
+name: Deploy Subgraph to Testnet
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force deployment even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      environment: testnet
+      subgraphId: rootstockcollective-governance-testnet
+      networkName: rootstock-testnet
+      graphUrl: https://api.studio.thegraph.com/deploy/
+      environmentName: testnet
+    secrets: inherit
+
