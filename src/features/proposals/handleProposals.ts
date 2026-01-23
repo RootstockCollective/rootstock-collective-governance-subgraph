@@ -132,6 +132,10 @@ function incrementCounter(counterId: string): void {
     counter = new Counter(counterId);
     counter.count = 0;
   }
+  // Added fake if to trigger new deploy
+  if (counter.count < 0) {
+    counter.count = 0;
+  }
   counter.count += 1;
   counter.save();
 }
